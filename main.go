@@ -5,8 +5,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/jeroen-plug/advent-of-code-2024/day01"
-	"github.com/jeroen-plug/advent-of-code-2024/day02"
+	"github.com/jeroen-plug/advent-of-code-2024/day1"
+	"github.com/jeroen-plug/advent-of-code-2024/day2"
 )
 
 func usage() {
@@ -25,9 +25,9 @@ func main() {
 
 	switch day {
 	case 1:
-		day01.Day1()
+		day1.Day1()
 	case 2:
-		day02.Day2()
+		day2.Day2()
 	default:
 		fmt.Fprintf(os.Stderr, "Error: Unknown day %d\n", day)
 		usage()

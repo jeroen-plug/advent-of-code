@@ -1,4 +1,4 @@
-package day01
+package day1
 
 import (
 	"strings"
@@ -27,5 +27,18 @@ func TestDay1b(t *testing.T) {
 
 	if res != want {
 		t.Fatalf("day1b() = %d, want %d", res, want)
+	}
+}
+
+func BenchmarkParse(b *testing.B) {
+	lines := strings.Split(example, "\n")
+
+	ls := []string{}
+	for i := 0; i < 1000; i++ {
+		ls = append(ls, lines...)
+	}
+
+	for i := 0; i < b.N; i++ {
+		parse(ls)
 	}
 }

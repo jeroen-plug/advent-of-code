@@ -3,8 +3,7 @@ param (
     [int]$DayNumber
 )
 
-$formattedNumber = $DayNumber.ToString("D2")
-$folderName = "day$formattedNumber"
+$folderName = "day$DayNumber"
 
 New-Item -ItemType Directory -Path $folderName -Force | Out-Null
 
@@ -40,9 +39,9 @@ func day${DayNumber}b(lines []string) int {
 }
 "@
 
-# if (-Not (Test-Path -Path $goFilePath)) {
+if (-Not (Test-Path -Path $goFilePath)) {
     Set-Content -Path $goFilePath -Value $goFileContent
-# }
+}
 
 $testFileContent = @"
 package $folderName
@@ -81,10 +80,10 @@ if (-Not (Test-Path -Path $inputFilePath)) {
     Set-Content -Path $inputFilePath -Value ""
 }
 
-$newImportLine = "	""github.com/jeroen-plug/advent-of-code-2024/day$formattedNumber"""
+$newImportLine = "	""github.com/jeroen-plug/advent-of-code-2024/day$DayNumber"""
 $newCaseLine = @"
 	case ${DayNumber}:
-        day$formattedNumber.Day$DayNumber()
+        day$DayNumber.Day$DayNumber()
 "@
 
 $mainFileContent = Get-Content -Path $mainFilePath -Raw
