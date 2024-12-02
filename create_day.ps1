@@ -3,14 +3,20 @@ param (
     [int]$DayNumber
 )
 
+$year = 2024
 $folderName = "day$DayNumber"
-
-New-Item -ItemType Directory -Path $folderName -Force | Out-Null
 
 $goFilePath = "$folderName\day$DayNumber.go"
 $testFilePath = "$folderName\day${DayNumber}_test.go"
 $inputFilePath = "input\$DayNumber.txt"
 $mainFilePath = "main.go"
+
+Get-Content .env | ForEach-Object {
+	$name, $value = $_.split('=')
+	New-Variable -Name $name -Value $value
+}
+
+New-Item -ItemType Directory -Path $folderName -Force | Out-Null
 
 $goFileContent = @"
 package $folderName
@@ -18,7 +24,7 @@ package $folderName
 import (
 	"fmt"
 
-	"github.com/jeroen-plug/advent-of-code-2024/input"
+	"github.com/jeroen-plug/advent-of-code-$year/input"
 )
 
 func Day$DayNumber() {
@@ -77,10 +83,19 @@ if (-Not (Test-Path -Path $testFilePath)) {
 }
 
 if (-Not (Test-Path -Path $inputFilePath)) {
-    Set-Content -Path $inputFilePath -Value ""
+	$session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+	$cookie = New-Object System.Net.Cookie('session', $SESSION_COOKIE, '/', 'adventofcode.com')
+	$session.Cookies.Add($cookie)
+
+	try {
+		Invoke-WebRequest -Uri "https://adventofcode.com/$year/day/$DayNumber/input" -WebSession $session -OutFile $inputFilePath
+	} catch {
+		Write-Host -ForegroundColor Yellow "Warning: Could not download input for day $DayNumber!"
+		Set-Content -Path $inputFilePath -Value ""
+	}
 }
 
-$newImportLine = "	""github.com/jeroen-plug/advent-of-code-2024/day$DayNumber"""
+$newImportLine = "	""github.com/jeroen-plug/advent-of-code-$year/day$DayNumber"""
 $newCaseLine = @"
 	case ${DayNumber}:
         day$DayNumber.Day$DayNumber()
