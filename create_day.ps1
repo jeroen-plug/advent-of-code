@@ -81,7 +81,7 @@ if (-Not (Test-Path -Path $inputFilePath)) {
     Set-Content -Path $inputFilePath -Value ""
 }
 
-$newImportLine = "	""github.com/jeroen-plug/advent-of-code-2023/day$formattedNumber"""
+$newImportLine = "	""github.com/jeroen-plug/advent-of-code-2024/day$formattedNumber"""
 $newCaseLine = @"
 	case ${DayNumber}:
         day$formattedNumber.Day$DayNumber()
