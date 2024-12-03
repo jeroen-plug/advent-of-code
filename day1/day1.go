@@ -2,10 +2,8 @@ package day1
 
 import (
 	"fmt"
-	"log"
 	"math"
 	"slices"
-	"strconv"
 	"strings"
 
 	"github.com/jeroen-plug/advent-of-code-2024/input"
@@ -62,18 +60,8 @@ func parse(lines []string) ([]int, []int) {
 
 	for _, l := range lines {
 		numbers := strings.Fields(l)
-
-		n1, err := strconv.Atoi(numbers[0])
-		if err != nil {
-			log.Fatalf("Could not parse number %s", numbers[0])
-		}
-		n2, err := strconv.Atoi(numbers[1])
-		if err != nil {
-			log.Fatalf("Could not parse number %s", numbers[0])
-		}
-
-		list1 = append(list1, n1)
-		list2 = append(list2, n2)
+		list1 = append(list1, input.ParseInt(numbers[0]))
+		list2 = append(list2, input.ParseInt(numbers[1]))
 	}
 
 	slices.Sort(list1)

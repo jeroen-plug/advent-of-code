@@ -2,9 +2,7 @@ package day2
 
 import (
 	"fmt"
-	"log"
 	"math"
-	"strconv"
 	"strings"
 
 	"github.com/jeroen-plug/advent-of-code-2024/input"
@@ -96,11 +94,7 @@ func parse(report string) []int {
 	var levels []int
 
 	for _, l := range strings.Fields(report) {
-		level, err := strconv.Atoi(l)
-		if err != nil {
-			log.Fatalf("Could not parse number %s", l)
-		}
-		levels = append(levels, level)
+		levels = append(levels, input.ParseInt(l))
 	}
 
 	return levels
