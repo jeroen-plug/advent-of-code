@@ -13,6 +13,7 @@ import (
 	"github.com/jeroen-plug/advent-of-code-2024/day6"
 	"github.com/jeroen-plug/advent-of-code-2024/day7"
 	"github.com/jeroen-plug/advent-of-code-2024/day8"
+	"github.com/jeroen-plug/advent-of-code-2024/day9"
 )
 
 func usage() {
@@ -46,6 +47,8 @@ func main() {
 		day7.Day7()
 	case 8:
 		day8.Day8()
+	case 9:
+		day9.Day9()
 	default:
 		fmt.Fprintf(os.Stderr, "Error: Unknown day %d\n", day)
 		usage()
