@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/jeroen-plug/advent-of-code-2024/day1"
+	"github.com/jeroen-plug/advent-of-code-2024/day10"
 	"github.com/jeroen-plug/advent-of-code-2024/day2"
 	"github.com/jeroen-plug/advent-of-code-2024/day3"
 	"github.com/jeroen-plug/advent-of-code-2024/day4"
@@ -49,6 +50,8 @@ func main() {
 		day8.Day8()
 	case 9:
 		day9.Day9()
+	case 10:
+		day10.Day10()
 	default:
 		fmt.Fprintf(os.Stderr, "Error: Unknown day %d\n", day)
 		usage()
