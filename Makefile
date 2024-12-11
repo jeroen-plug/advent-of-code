@@ -19,5 +19,8 @@ build:
 test:
 	@go test ./day...
 
+bench:
+	go test -benchmem -run=^$$ -bench .* ./day...
+
 clean:
 	@go clean -r -testcache
