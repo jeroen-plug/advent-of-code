@@ -3,6 +3,7 @@ package day11
 import (
 	"fmt"
 	"math"
+	"math/big"
 	"strings"
 
 	"github.com/jeroen-plug/advent-of-code-2024/input"
@@ -13,36 +14,49 @@ func Day11() {
 
 	fmt.Printf("day 11a: %d\n", day11(data, 25))
 	fmt.Printf("day 11b: %d\n", day11(data, 75))
+
+	// fmt.Printf("day 11 extra (100000): %d\n", day11("0 1 10 99 999", 100000))
 }
 
-func day11(data string, blinks int) int {
-	stones := make(map[int]int) // how many of each number
+func day11(data string, blinks int) *big.Int {
+	stones := make(map[int]*big.Int) // how many of each number
 	for _, s := range strings.Fields(data) {
-		stones[input.ParseInt(s)]++
+		i := input.ParseInt(s)
+		stones[i] = Add(stones[i], big.NewInt(1))
 	}
 
 	for range blinks {
-		newStones := make(map[int]int)
+		newStones := make(map[int]*big.Int)
 		for s, n := range stones {
-			if n == 0 {
+			if n.Cmp(big.NewInt(0)) == 0 {
 				continue
 			} else if s == 0 {
-				newStones[1] += n
+				newStones[1] = Add(newStones[1], n)
 			} else if digits := int(math.Log10(float64(s)) + 1); digits%2 == 0 {
 				split := int(math.Pow10(digits / 2))
-				newStones[s/split] += n
-				newStones[s%split] += n
+				iLeft := s / split
+				iRight := s % split
+				newStones[iLeft] = Add(newStones[iLeft], n)
+				newStones[iRight] = Add(newStones[iRight], n)
 			} else {
-				newStones[s*2024] += n
+				i := s * 2024
+				newStones[i] = Add(newStones[i], n)
 			}
 		}
 		stones = newStones
 	}
 
-	sum := 0
+	sum := big.NewInt(0)
 	for _, n := range stones {
-		sum += n
+		sum.Add(sum, n)
 	}
 
 	return sum
+}
+
+func Add(a, b *big.Int) *big.Int {
+	if a == nil {
+		a = big.NewInt(0)
+	}
+	return a.Add(a, b)
 }
