@@ -1,11 +1,13 @@
 package day14
 
 import (
+	"cmp"
 	"fmt"
 	"image"
 	"image/color"
 	"image/png"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/jeroen-plug/advent-of-code-2024/input"
@@ -20,33 +22,39 @@ func Day14() {
 	lines := input.Lines(14)
 
 	fmt.Printf("day 14a: %d\n", day14a(lines, 101, 103))
-	day14b(lines, 101, 103)
-	fmt.Printf("day 14b: Results is in ./out14\n")
+	day14render(lines, 101, 103)
+	fmt.Printf("day 14b: %d; All results are in ./out14\n", day14b(lines, 101, 103))
 	// ffmpeg -framerate 100 -i out14/step%04d.png out14/video.mp4
 }
 
 func day14a(lines []string, width, height int) int {
 	robots := parse(lines)
 	robots = move(robots, 100, width, height)
-
-	center := [2]int{width / 2, height / 2}
-	var quadrants [4]int
-	for _, r := range robots {
-		if r.Position[0] < center[0] && r.Position[1] < center[1] {
-			quadrants[0]++
-		} else if r.Position[0] > center[0] && r.Position[1] < center[1] {
-			quadrants[1]++
-		} else if r.Position[0] < center[0] && r.Position[1] > center[1] {
-			quadrants[2]++
-		} else if r.Position[0] > center[0] && r.Position[1] > center[1] {
-			quadrants[3]++
-		}
-	}
-
+	quadrants := groupByQuadrant(robots, width, height)
 	return quadrants[0] * quadrants[1] * quadrants[2] * quadrants[3]
 }
 
-func day14b(lines []string, width, height int) {
+func day14b(lines []string, width, height int) []int {
+	robots := parse(lines)
+
+	var results [][2]int
+
+	for i := range 9999 {
+		robots = move(robots, 1, width, height)
+		quadrants := groupByQuadrant(robots, width, height)
+		safetyScore := quadrants[0] * quadrants[1] * quadrants[2] * quadrants[3]
+		results = append(results, [2]int{i + 1, safetyScore})
+	}
+
+	slices.SortFunc(results, func(a, b [2]int) int { return cmp.Compare(a[1], b[1]) })
+	var top3 []int
+	for _, r := range results[:3] {
+		top3 = append(top3, r[0])
+	}
+	return top3
+}
+
+func day14render(lines []string, width, height int) {
 	_, err := os.Lstat("out14")
 	if !os.IsNotExist(err) {
 		return
@@ -65,6 +73,23 @@ func day14b(lines []string, width, height int) {
 		f, _ = os.Create(fmt.Sprintf("out14/step%04d.png", i+1))
 		png.Encode(f, img)
 	}
+}
+
+func groupByQuadrant(robots []Robot, width, height int) [4]int {
+	center := [2]int{width / 2, height / 2}
+	var quadrants [4]int
+	for _, r := range robots {
+		if r.Position[0] < center[0] && r.Position[1] < center[1] {
+			quadrants[0]++
+		} else if r.Position[0] > center[0] && r.Position[1] < center[1] {
+			quadrants[1]++
+		} else if r.Position[0] < center[0] && r.Position[1] > center[1] {
+			quadrants[2]++
+		} else if r.Position[0] > center[0] && r.Position[1] > center[1] {
+			quadrants[3]++
+		}
+	}
+	return quadrants
 }
 
 func move(robots []Robot, seconds, width, height int) []Robot {
