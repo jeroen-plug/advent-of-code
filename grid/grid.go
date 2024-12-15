@@ -1,4 +1,4 @@
-package day12
+package grid
 
 type Position struct {
 	Row int

@@ -5,6 +5,7 @@ import (
 	"math"
 	"slices"
 
+	"github.com/jeroen-plug/advent-of-code-2024/grid"
 	"github.com/jeroen-plug/advent-of-code-2024/input"
 )
 
@@ -15,7 +16,7 @@ type Region struct {
 }
 
 type Plot struct {
-	Position   Position
+	Position   grid.Position
 	Perimeters int
 }
 
@@ -32,7 +33,7 @@ func day12a(lines []string) int {
 	for row, line := range lines {
 		for col := range line {
 			if !slices.Contains(used, [2]int{row, col}) {
-				r := findRegion(lines, &used, Position{row, col})
+				r := findRegion(lines, &used, grid.Position{row, col})
 				sum += len(r.Plots) * r.Perimeter
 			}
 		}
@@ -46,7 +47,7 @@ func day12b(lines []string) int {
 	for row, line := range lines {
 		for col := range line {
 			if !slices.Contains(used, [2]int{row, col}) {
-				r := findRegion(lines, &used, Position{row, col})
+				r := findRegion(lines, &used, grid.Position{row, col})
 				sum += len(r.Plots) * countEdges(r)
 			}
 		}
@@ -54,17 +55,17 @@ func day12b(lines []string) int {
 	return sum
 }
 
-func findRegion(lines []string, used *[][2]int, pos Position) Region {
+func findRegion(lines []string, used *[][2]int, pos grid.Position) Region {
 	plant := lines[pos.Row][pos.Col]
 	*used = append(*used, pos.Array())
-	toCheck := []Position{pos}
+	toCheck := []grid.Position{pos}
 
 	r := Region{Plant: plant}
 
 	for len(toCheck) > 0 {
 		current := toCheck[0]
 		perimeters := 0
-		for _, d := range AllDirections() {
+		for _, d := range grid.AllDirections() {
 			newPos := current.Move(d)
 			if !newPos.InBounds(lines) || lines[current.Row][current.Col] != lines[newPos.Row][newPos.Col] {
 				perimeters++
