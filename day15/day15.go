@@ -1,6 +1,7 @@
 package day15
 
 import (
+	"container/list"
 	"fmt"
 	"strings"
 
@@ -16,8 +17,7 @@ const (
 	Robot rune = '@'
 	Floor rune = '.'
 
-	BigBoxL rune = '['
-	BigBoxR rune = ']'
+	BigBox rune = '['
 )
 
 func Day15() {
@@ -45,43 +45,108 @@ func day15a(lines []string) int {
 }
 
 func day15b(lines []string) int {
-	return 0
-}
+	warehouse, moves := parse(lines)
+	warehouse = stretch(warehouse)
+	warehouse, robot := separateRobot(warehouse)
+	warehouse.moveRobot(robot, moves)
 
-func (w *Warehouse) moveRobot(robot grid.Position, moves []grid.Direction) {
-	for _, dir := range moves {
-		canMove, willPush, pushEnd := w.checkMove(robot, dir)
-		if !canMove {
-			continue
+	sum := 0
+	for row, r := range warehouse {
+		for col, o := range r {
+			if o == BigBox {
+				sum += 100*row + col
+			}
 		}
-		newPosition := robot.Move(dir)
-		if willPush {
-			w.Set(pushEnd, Box)
-			w.Set(newPosition, Floor)
-		}
-		robot = newPosition
 	}
+
+	return sum
 }
 
-func (w Warehouse) checkMove(robot grid.Position, dir grid.Direction) (bool, bool, grid.Position) {
-	canMove := false
-	willPush := false
-	pushEnd := grid.Position{}
+func (w *Warehouse) moveRobot(robot grid.Position, moves []grid.Direction) grid.Position {
+	for _, dir := range moves {
+		robot = w.tryMove(robot, dir)
+	}
+	return robot
+}
 
+func (w *Warehouse) tryMove(robot grid.Position, dir grid.Direction) grid.Position {
 	newPosition := robot.Move(dir)
 	tile := w.At(newPosition)
 
-	if tile == Floor {
-		canMove = true
-	} else if tile == Box || tile == BigBoxL || tile == BigBoxR {
-		willPush = true
-		canMove, pushEnd = w.canPush(newPosition, dir)
+	if tile == Box {
+		if canPush, pushEnd := w.canPushSmall(newPosition, dir); canPush {
+			w.Set(pushEnd, Box)
+			w.Set(newPosition, Floor)
+			return newPosition
+		}
+	} else if tile == BigBox {
+		if canPush := w.tryPushBig(newPosition, dir); canPush {
+			return newPosition
+		}
+	} else if tile == Floor && w.At(newPosition.Move(grid.Left)) == BigBox {
+		if canPush := w.tryPushBig(newPosition.Move(grid.Left), dir); canPush {
+			return newPosition
+		}
+	} else if tile == Floor {
+		return newPosition
 	}
 
-	return canMove, willPush, pushEnd
+	return robot
 }
 
-func (w Warehouse) canPush(box grid.Position, dir grid.Direction) (bool, grid.Position) {
+func (w Warehouse) tryPushBig(box grid.Position, dir grid.Direction) bool {
+	// queue
+	toCheck := list.New()
+	toCheck.PushBack(box)
+
+	// stack
+	toMove := list.New()
+
+	for toCheck.Len() > 0 {
+		i := toCheck.Front()
+		check := i.Value.(grid.Position)
+
+		// Check for walls
+		if dir == grid.Left && w.At(check.Move(dir)) == Wall ||
+			dir == grid.Right && w.At(check.Move(dir).Move(dir)) == Wall ||
+			(dir == grid.Up || dir == grid.Down) && (w.At(check.Move(dir)) == Wall || w.At(check.Move(dir).Move(grid.Right)) == Wall) {
+			return false
+		}
+
+		// Check for adjacent boxes
+		if dir == grid.Left && w.At(check.Move(dir).Move(dir)) == BigBox {
+			toCheck.PushBack(check.Move(dir).Move(dir))
+		} else if dir == grid.Right && w.At(check.Move(dir).Move(dir)) == BigBox {
+			toCheck.PushBack(check.Move(dir).Move(dir))
+		} else if dir == grid.Up || dir == grid.Down {
+			if w.At(check.Move(dir)) == BigBox {
+				toCheck.PushBack(check.Move(dir))
+			} else {
+				if w.At(check.Move(dir).Move(grid.Left)) == BigBox {
+					toCheck.PushBack(check.Move(dir).Move(grid.Left))
+				}
+				if w.At(check.Move(dir).Move(grid.Right)) == BigBox {
+					toCheck.PushBack(check.Move(dir).Move(grid.Right))
+				}
+			}
+		}
+
+		toMove.PushBack(check)
+		toCheck.Remove(i)
+	}
+
+	for toMove.Len() > 0 {
+		i := toMove.Back()
+		move := i.Value.(grid.Position)
+		w.Set(move, Floor)
+		w.Set(move.Move(dir), BigBox)
+		toMove.Remove(i)
+	}
+
+	return true
+}
+
+func (w Warehouse) canPushSmall(box grid.Position, dir grid.Direction) (bool, grid.Position) {
 	canPush := false
 	pushEnd := grid.Position{}
 
@@ -91,7 +156,7 @@ func (w Warehouse) canPush(box grid.Position, dir grid.Direction) (bool, grid.Po
 		canPush = true
 		pushEnd = newPosition
 	case Box:
-		canPush, pushEnd = w.canPush(newPosition, dir)
+		canPush, pushEnd = w.canPushSmall(newPosition, dir)
 	}
 
 	return canPush, pushEnd
@@ -100,7 +165,7 @@ func (w Warehouse) canPush(box grid.Position, dir grid.Direction) (bool, grid.Po
 func (w Warehouse) String() string {
 	var s strings.Builder
 	for _, l := range w {
-		s.WriteString(string(l))
+		s.WriteString(strings.ReplaceAll(string(l), "[.", "[]"))
 		s.WriteRune('\n')
 	}
 	return s.String()
@@ -124,6 +189,27 @@ func separateRobot(warehouse Warehouse) (Warehouse, grid.Position) {
 		}
 	}
 	return warehouse, grid.Position{}
+}
+
+func stretch(warehouse Warehouse) Warehouse {
+	var stretched Warehouse
+	for _, row := range warehouse {
+		var newRow []rune
+		for _, c := range row {
+			if c == Box {
+				newRow = append(newRow, BigBox)
+			} else {
+				newRow = append(newRow, c)
+			}
+			if c == Wall {
+				newRow = append(newRow, Wall)
+			} else {
+				newRow = append(newRow, Floor)
+			}
+		}
+		stretched = append(stretched, newRow)
+	}
+	return stretched
 }
 
 func parse(lines []string) (Warehouse, []grid.Direction) {

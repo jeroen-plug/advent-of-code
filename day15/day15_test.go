@@ -74,13 +74,13 @@ func TestDay15b(t *testing.T) {
 		want  int
 	}{
 		{"wide", strings.Split(wideExample, "\n"), 618},
-		// {"large", strings.Split(largeExample, "\n"), 9021},
+		{"large", strings.Split(largeExample, "\n"), 9021},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res := day15a(tt.input)
+			res := day15b(tt.input)
 			if res != tt.want {
-				t.Fatalf("day15a() = %d, want %d", res, tt.want)
+				t.Fatalf("day15b() = %d, want %d", res, tt.want)
 			}
 		})
 	}
