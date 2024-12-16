@@ -33,7 +33,7 @@ func day12a(lines []string) int {
 	for row, line := range lines {
 		for col := range line {
 			if !slices.Contains(used, [2]int{row, col}) {
-				r := findRegion(lines, &used, grid.Position{row, col})
+				r := findRegion(lines, &used, grid.Position{Row: row, Col: col})
 				sum += len(r.Plots) * r.Perimeter
 			}
 		}
@@ -47,7 +47,7 @@ func day12b(lines []string) int {
 	for row, line := range lines {
 		for col := range line {
 			if !slices.Contains(used, [2]int{row, col}) {
-				r := findRegion(lines, &used, grid.Position{row, col})
+				r := findRegion(lines, &used, grid.Position{Row: row, Col: col})
 				sum += len(r.Plots) * countEdges(r)
 			}
 		}
