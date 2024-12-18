@@ -20,33 +20,43 @@ func Day18() {
 
 func day18a(lines []string, size int) int {
 	walls := parse(lines)
-	start := grid.Position{Row: 0, Col: 0}
-	goal := grid.Position{Row: size - 1, Col: size - 1}
-
-	path := bfs(walls, size, start, goal)
+	path, _ := bfs(walls, size)
 	return len(path)
 }
 
 func day18b(lines []string, size int) grid.Position {
 	walls := parse(lines)
+
+	n := binarySearch(len(walls), func(i int) int {
+		if _, ok := bfs(walls[:i], size); ok {
+			return -1
+		} else {
+			return 1
+		}
+	})
+
+	return walls[n]
+}
+
+func binarySearch(n int, compare func(i int) int) int {
+	left := 0
+	right := n - 1
+	for left <= right {
+		middle := (left + right) / 2
+		cmp := compare(middle)
+		if cmp < 0 {
+			left = middle + 1
+		} else if cmp > 0 {
+			right = middle - 1
+		}
+	}
+	return right
+}
+
+func bfs(walls []grid.Position, size int) ([]grid.Position, bool) {
 	start := grid.Position{Row: 0, Col: 0}
 	goal := grid.Position{Row: size - 1, Col: size - 1}
 
-	var path []grid.Position
-	for i := range walls {
-		if i > 0 && !slices.Contains(path, walls[i-1]) {
-			continue
-		}
-		path = bfs(walls[:i], size, start, goal)
-		if len(path) == 0 {
-			return walls[i-1]
-		}
-	}
-
-	return grid.Position{}
-}
-
-func bfs(walls []grid.Position, size int, start grid.Position, goal grid.Position) []grid.Position {
 	toCheck := list.New()
 	toCheck.PushBack(start)
 
@@ -58,7 +68,7 @@ func bfs(walls []grid.Position, size int, start grid.Position, goal grid.Positio
 		toCheck.Remove(e)
 
 		if current == goal {
-			return reconstruct(explored, goal)
+			return reconstruct(explored, goal), true
 		}
 
 		for _, dir := range grid.AllDirections() {
@@ -77,7 +87,7 @@ func bfs(walls []grid.Position, size int, start grid.Position, goal grid.Positio
 		}
 	}
 
-	return nil
+	return nil, false
 }
 
 func reconstruct(explored map[grid.Position]grid.Position, current grid.Position) []grid.Position {
