@@ -19,6 +19,12 @@ func (p Position) Move(d Direction) Position {
 	return p
 }
 
+func (p Position) Add(offset Position) Position {
+	p.Row += offset.Row
+	p.Col += offset.Col
+	return p
+}
+
 func (p Position) InBounds(l []string) bool {
 	return p.Row >= 0 && p.Row < len(l) && p.Col >= 0 && p.Col < len(l[0])
 }
