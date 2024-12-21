@@ -18,6 +18,7 @@ import (
 	"github.com/jeroen-plug/advent-of-code-2024/day19"
 	"github.com/jeroen-plug/advent-of-code-2024/day2"
 	"github.com/jeroen-plug/advent-of-code-2024/day20"
+	"github.com/jeroen-plug/advent-of-code-2024/day21"
 	"github.com/jeroen-plug/advent-of-code-2024/day3"
 	"github.com/jeroen-plug/advent-of-code-2024/day4"
 	"github.com/jeroen-plug/advent-of-code-2024/day5"
@@ -82,6 +83,8 @@ func main() {
 		day19.Day19()
 	case 20:
 		day20.Day20()
+	case 21:
+		day21.Day21()
 	default:
 		fmt.Fprintf(os.Stderr, "Error: Unknown day %d\n", day)
 		usage()

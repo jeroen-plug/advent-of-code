@@ -1,5 +1,7 @@
 package grid
 
+import "math"
+
 type Position struct {
 	Row int
 	Col int
@@ -23,6 +25,10 @@ func (p Position) Add(offset Position) Position {
 	p.Row += offset.Row
 	p.Col += offset.Col
 	return p
+}
+
+func (p Position) Distance(other Position) int {
+	return int(math.Abs(float64(p.Col-other.Col)) + math.Abs(float64(p.Row-other.Row)))
 }
 
 func (p Position) InBounds(l []string) bool {
