@@ -1,7 +1,6 @@
 package day22
 
 import (
-	"fmt"
 	"maps"
 	"slices"
 	"sync"
@@ -9,11 +8,9 @@ import (
 	"github.com/jeroen-plug/advent-of-code-2024/input"
 )
 
-func Day22() {
+func Solution() (any, any) {
 	lines := input.Lines(22)
-
-	fmt.Printf("day 22a: %d\n", day22a(lines))
-	fmt.Printf("day 22b: %d\n", day22b(lines, 32))
+	return day22a(lines), day22b(lines, 32)
 }
 
 func day22a(lines []string) int {

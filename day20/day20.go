@@ -26,11 +26,9 @@ const (
 	T_Wall
 )
 
-func Day20() {
+func Solution() (any, any) {
 	lines := input.Lines(20)
-
-	fmt.Printf("day 20a: %d\n", day20(lines, 2, 100))
-	fmt.Printf("day 20b: %d\n", day20(lines, 20, 100))
+	return day20(lines, 2, 100), day20(lines, 20, 100)
 }
 
 func day20(lines []string, maxCheat, threshold int) int {

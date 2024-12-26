@@ -1,7 +1,6 @@
 package day5
 
 import (
-	"fmt"
 	"slices"
 	"strings"
 
@@ -13,11 +12,9 @@ type Printer struct {
 	Updates [][]int
 }
 
-func Day5() {
+func Solution() (any, any) {
 	lines := input.Lines(5)
-
-	fmt.Printf("day 5a: %d\n", day5a(lines))
-	fmt.Printf("day 5b: %d\n", day5b(lines))
+	return day5a(lines), day5b(lines)
 }
 
 func day5a(lines []string) int {

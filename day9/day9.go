@@ -1,18 +1,15 @@
 package day9
 
 import (
-	"fmt"
 	"slices"
 	"strings"
 
 	"github.com/jeroen-plug/advent-of-code-2024/input"
 )
 
-func Day9() {
+func Solution() (any, any) {
 	data := strings.TrimSuffix(input.String(9), "\n")
-
-	fmt.Printf("day 9a: %d\n", day9a(data))
-	fmt.Printf("day 9b: %d\n", day9b(data))
+	return day9a(data), day9b(data)
 }
 
 func day9a(data string) int {

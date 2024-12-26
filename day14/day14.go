@@ -18,12 +18,10 @@ type Robot struct {
 	Velocity [2]int
 }
 
-func Day14() {
+func Solution() (any, any) {
 	lines := input.Lines(14)
-
-	fmt.Printf("day 14a: %d\n", day14a(lines, 101, 103))
 	day14render(lines, 101, 103)
-	fmt.Printf("day 14b: %d; All results are in ./out14\n", day14b(lines, 101, 103))
+	return day14a(lines, 101, 103), fmt.Sprintf("%d; All results are in ./out14", day14b(lines, 101, 103))
 	// ffmpeg -framerate 100 -i out14/step%04d.png out14/video.mp4
 }
 

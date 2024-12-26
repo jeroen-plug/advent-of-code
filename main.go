@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"maps"
 	"os"
+	"slices"
 	"strconv"
 
+	"github.com/fatih/color"
 	"github.com/jeroen-plug/advent-of-code-2024/day1"
 	"github.com/jeroen-plug/advent-of-code-2024/day10"
 	"github.com/jeroen-plug/advent-of-code-2024/day11"
@@ -32,73 +35,79 @@ import (
 	"github.com/jeroen-plug/advent-of-code-2024/day9"
 )
 
+type Day struct {
+	Title    string
+	Solution func() (any, any)
+}
+
 func usage() {
 	fmt.Fprintf(os.Stderr, "Usage: %s [day]\n", os.Args[0])
 	os.Exit(1)
 }
 
 func main() {
-	if len(os.Args) < 2 {
-		usage()
-	}
-	day, err := strconv.Atoi(os.Args[1])
-	if err != nil || day <= 0 {
-		usage()
+	day := 0
+	all := true
+
+	if len(os.Args) >= 2 {
+		d, err := strconv.Atoi(os.Args[1])
+		if err != nil || day <= 0 || day > 25 {
+			usage()
+		}
+		day = d
+		all = false
 	}
 
-	switch day {
-	case 1:
-		day1.Day1()
-	case 2:
-		day2.Day2()
-	case 3:
-		day3.Day3()
-	case 4:
-		day4.Day4()
-	case 5:
-		day5.Day5()
-	case 6:
-		day6.Day6()
-	case 7:
-		day7.Day7()
-	case 8:
-		day8.Day8()
-	case 9:
-		day9.Day9()
-	case 10:
-		day10.Day10()
-	case 11:
-		day11.Day11()
-	case 12:
-		day12.Day12()
-	case 13:
-		day13.Day13()
-	case 14:
-		day14.Day14()
-	case 15:
-		day15.Day15()
-	case 16:
-		day16.Day16()
-	case 17:
-		day17.Day17()
-	case 18:
-		day18.Day18()
-	case 19:
-		day19.Day19()
-	case 20:
-		day20.Day20()
-	case 21:
-		day21.Day21()
-	case 22:
-		day22.Day22()
-	case 23:
-		day23.Day23()
-	case 24:
-		day24.Day24()
-	case 25:
-		day25.Day25()
-	default:
-		fmt.Fprintf(os.Stderr, "Error: Unknown day %d\n", day)
-		usage()
+	days := map[int]Day{
+		1:  {"Historian Hysteria", day1.Solution},
+		2:  {"Red-Nosed Reports", day2.Solution},
+		3:  {"Mull It Over", day3.Solution},
+		4:  {"Ceres Search", day4.Solution},
+		5:  {"Print Queue", day5.Solution},
+		6:  {"Guard Gallivant", day6.Solution},
+		7:  {"Bridge Repair", day7.Solution},
+		8:  {"Resonant Collinearity", day8.Solution},
+		9:  {"Disk Fragmenter", day9.Solution},
+		10: {"Hoof It", day10.Solution},
+		11: {"Plutonian Pebbles", day11.Solution},
+		12: {"Garden Groups", day12.Solution},
+		13: {"Claw Contraption", day13.Solution},
+		14: {"Restroom Redoubt", day14.Solution},
+		15: {"Warehouse Woes", day15.Solution},
+		16: {"Reindeer Maze", day16.Solution},
+		17: {"Chronospatial Computer", day17.Solution},
+		18: {"RAM Run", day18.Solution},
+		19: {"Linen Layout", day19.Solution},
+		20: {"Race Condition", day20.Solution},
+		21: {"Keypad Conundrum", day21.Solution},
+		22: {"Monkey Market", day22.Solution},
+		23: {"LAN Party", day23.Solution},
+		24: {"Crossed Wires", day24.Solution},
+		25: {"Code Chronicle", day25.Solution},
 	}
+
+	if all {
+		keys := make([]int, 0, len(days))
+		for k := range maps.Keys(days) {
+			keys = append(keys, k)
+		}
+		slices.Sort(keys)
+		for _, day := range keys {
+			runDay(day, days[day])
+		}
+	} else {
+		if solution, exists := days[day]; exists {
+			runDay(day, solution)
+		} else {
+			fmt.Printf("Day %d not implemented.\n", day)
+		}
+	}
+}
+
+func runDay(n int, day Day) {
+	c := color.New(color.FgYellow).Add(color.Bold)
+	part1, part2 := day.Solution()
+	c.Printf("2024 Day %d: %s\n", n, color.New(color.ResetBold).Sprint(day.Title))
+	fmt.Printf("    Part 1: %v\n", part1)
+	fmt.Printf("    Part 2: %v\n", part2)
 }

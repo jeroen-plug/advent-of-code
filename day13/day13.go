@@ -1,7 +1,6 @@
 package day13
 
 import (
-	"fmt"
 	"math"
 	"strings"
 
@@ -14,11 +13,9 @@ type ClawMachine struct {
 	Prize   [2]int
 }
 
-func Day13() {
+func Solution() (any, any) {
 	lines := input.Lines(13)
-
-	fmt.Printf("day 13a: %d\n", day13a(lines))
-	fmt.Printf("day 13b: %d\n", day13b(lines))
+	return day13a(lines), day13b(lines)
 }
 
 func day13a(lines []string) int {

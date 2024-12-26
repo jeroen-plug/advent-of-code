@@ -1,17 +1,14 @@
 package day19
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/jeroen-plug/advent-of-code-2024/input"
 )
 
-func Day19() {
+func Solution() (any, any) {
 	lines := input.Lines(19)
-
-	fmt.Printf("day 19a: %d\n", day19a(lines))
-	fmt.Printf("day 19b: %d\n", day19b(lines))
+	return day19a(lines), day19b(lines)
 }
 
 func day19a(lines []string) int {

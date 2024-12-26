@@ -1,7 +1,6 @@
 package day7
 
 import (
-	"fmt"
 	"math"
 	"strings"
 
@@ -13,11 +12,9 @@ type Equation struct {
 	values []int
 }
 
-func Day7() {
+func Solution() (any, any) {
 	lines := input.Lines(7)
-
-	fmt.Printf("day 7a: %d\n", day7a(lines))
-	fmt.Printf("day 7b: %d\n", day7b(lines))
+	return day7a(lines), day7b(lines)
 }
 
 func day7a(lines []string) int {

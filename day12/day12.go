@@ -1,7 +1,6 @@
 package day12
 
 import (
-	"fmt"
 	"math"
 	"slices"
 
@@ -20,11 +19,9 @@ type Plot struct {
 	Perimeters int
 }
 
-func Day12() {
+func Solution() (any, any) {
 	lines := input.Lines(12)
-
-	fmt.Printf("day 12a: %d\n", day12a(lines))
-	fmt.Printf("day 12b: %d\n", day12b(lines))
+	return day12a(lines), day12b(lines)
 }
 
 func day12a(lines []string) int {

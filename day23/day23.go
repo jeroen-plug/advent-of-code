@@ -1,7 +1,6 @@
 package day23
 
 import (
-	"fmt"
 	"slices"
 	"strings"
 
@@ -10,11 +9,9 @@ import (
 
 type Network map[string][]string
 
-func Day23() {
+func Solution() (any, any) {
 	lines := input.Lines(23)
-
-	fmt.Printf("day 23a: %d\n", day23a(lines))
-	fmt.Printf("day 23b: %s\n", day23b(lines))
+	return day23a(lines), day23b(lines)
 }
 
 func day23a(lines []string) int {

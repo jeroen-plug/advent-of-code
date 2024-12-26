@@ -2,7 +2,6 @@ package day15
 
 import (
 	"container/list"
-	"fmt"
 	"strings"
 
 	"github.com/jeroen-plug/advent-of-code-2024/grid"
@@ -20,11 +19,9 @@ const (
 	BigBox rune = '['
 )
 
-func Day15() {
+func Solution() (any, any) {
 	lines := input.Lines(15)
-
-	fmt.Printf("day 15a: %d\n", day15a(lines))
-	fmt.Printf("day 15b: %d\n", day15b(lines))
+	return day15a(lines), day15b(lines)
 }
 
 func day15a(lines []string) int {

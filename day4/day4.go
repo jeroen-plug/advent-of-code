@@ -1,8 +1,6 @@
 package day4
 
 import (
-	"fmt"
-
 	"github.com/jeroen-plug/advent-of-code-2024/input"
 )
 
@@ -24,11 +22,9 @@ const (
 	DownLeft
 )
 
-func Day4() {
+func Solution() (any, any) {
 	lines := input.Lines(4)
-
-	fmt.Printf("day 4a: %d\n", day4a(lines))
-	fmt.Printf("day 4b: %d\n", day4b(lines))
+	return day4a(lines), day4b(lines)
 }
 
 func day4a(lines []string) int {

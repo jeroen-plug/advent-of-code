@@ -22,16 +22,12 @@ $goFileContent = @"
 package $folderName
 
 import (
-	"fmt"
-
 	"github.com/jeroen-plug/advent-of-code-$year/input"
 )
 
-func Day$DayNumber() {
+func Solution() (any, any) {
 	lines := input.Lines($DayNumber)
-
-	fmt.Printf("day ${DayNumber}a: %d\n", day${DayNumber}a(lines))
-	fmt.Printf("day ${DayNumber}b: %d\n", day${DayNumber}b(lines))
+	return day${DayNumber}a(lines), day${DayNumber}b(lines)
 }
 
 func day${DayNumber}a(lines []string) int {
@@ -96,14 +92,11 @@ if (-Not (Test-Path -Path $inputFilePath)) {
 }
 
 $newImportLine = "	""github.com/jeroen-plug/advent-of-code-$year/day$DayNumber"""
-$newCaseLine = @"
-	case ${DayNumber}:
-        day$DayNumber.Day$DayNumber()
-"@
+$newDayLine = "${DayNumber}: {"""", day$DayNumber.Solution},"
 
 $mainFileContent = Get-Content -Path $mainFilePath -Raw
 if ($mainFileContent -notmatch "case ${DayNumber}:") {
-	$updatedContent = $mainFileContent -replace "(\s+default:)", "`n$newCaseLine$&"
+	$updatedContent = $mainFileContent -replace "(?m)(\d+:\s*\{.*\},)(\s*\})", "`$1`n`t`t$newDayLine`$2"
 	Set-Content -Path $mainFilePath -Value $updatedContent
 }
 

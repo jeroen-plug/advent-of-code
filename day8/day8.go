@@ -1,7 +1,6 @@
 package day8
 
 import (
-	"fmt"
 	"slices"
 
 	"github.com/jeroen-plug/advent-of-code-2024/input"
@@ -9,11 +8,9 @@ import (
 
 type Pos [2]int
 
-func Day8() {
+func Solution() (any, any) {
 	lines := input.Lines(8)
-
-	fmt.Printf("day 8a: %d\n", day8a(lines))
-	fmt.Printf("day 8b: %d\n", day8b(lines))
+	return day8a(lines), day8b(lines)
 }
 
 func day8a(lines []string) int {

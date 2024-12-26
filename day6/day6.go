@@ -1,7 +1,6 @@
 package day6
 
 import (
-	"fmt"
 	"slices"
 	"strings"
 
@@ -23,11 +22,9 @@ type PosDir struct {
 	Dir Direction
 }
 
-func Day6() {
+func Solution() (any, any) {
 	lines := input.Lines(6)
-
-	fmt.Printf("day 6a: %d\n", day6a(lines))
-	fmt.Printf("day 6b: %d\n", day6b(lines))
+	return day6a(lines), day6b(lines)
 }
 
 func day6a(lines []string) int {

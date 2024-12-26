@@ -1,7 +1,6 @@
 package day1
 
 import (
-	"fmt"
 	"math"
 	"slices"
 	"strings"
@@ -9,11 +8,9 @@ import (
 	"github.com/jeroen-plug/advent-of-code-2024/input"
 )
 
-func Day1() {
+func Solution() (any, any) {
 	lines := input.Lines(1)
-
-	fmt.Printf("day 1a: %d\n", day1a(lines))
-	fmt.Printf("day 1b: %d\n", day1b(lines))
+	return day1a(lines), day1b(lines)
 }
 
 func day1a(lines []string) int {

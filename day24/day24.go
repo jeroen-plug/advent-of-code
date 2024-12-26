@@ -26,11 +26,9 @@ type Gate struct {
 	Type   GateType
 }
 
-func Day24() {
+func Solution() (any, any) {
 	lines := input.Lines(24)
-
-	fmt.Printf("day 24a: %d\n", day24a(lines))
-	fmt.Printf("day 24b: %s; Full adder diagram and input for swaps are in ./out24\n", day24b(lines))
+	return day24a(lines), fmt.Sprintf("%s; Full adder diagram and input for swaps are in ./out24", day24b(lines))
 }
 
 func day24a(lines []string) int {

@@ -1,7 +1,6 @@
 package day11
 
 import (
-	"fmt"
 	"math"
 	"math/big"
 	"strings"
@@ -9,12 +8,9 @@ import (
 	"github.com/jeroen-plug/advent-of-code-2024/input"
 )
 
-func Day11() {
+func Solution() (any, any) {
 	data := strings.TrimSuffix(input.String(11), "\n")
-
-	fmt.Printf("day 11a: %d\n", day11(data, 25))
-	fmt.Printf("day 11b: %d\n", day11(data, 75))
-
+	return day11(data, 25), day11(data, 75)
 	// fmt.Printf("day 11 extra (100000): %d\n", day11("0 1 10 99 999", 100000))
 }
 

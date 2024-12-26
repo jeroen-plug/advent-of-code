@@ -1,8 +1,6 @@
 package day25
 
 import (
-	"fmt"
-
 	"github.com/jeroen-plug/advent-of-code-2024/input"
 )
 
@@ -17,9 +15,9 @@ func (a Tumbler) Fits(b Tumbler) bool {
 	return true
 }
 
-func Day25() {
+func Solution() (any, any) {
 	lines := input.Lines(25)
-	fmt.Printf("day 25a: %d\n", day25a(lines))
+	return day25a(lines), nil
 }
 
 func day25a(lines []string) int {

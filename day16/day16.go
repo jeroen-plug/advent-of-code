@@ -2,7 +2,6 @@ package day16
 
 import (
 	"container/heap"
-	"fmt"
 	"log"
 	"math"
 	"slices"
@@ -26,11 +25,9 @@ func ToPosDir(pos grid.Position, dir grid.Direction) PosDir {
 	}
 }
 
-func Day16() {
+func Solution() (any, any) {
 	lines := input.Lines(16)
-
-	fmt.Printf("day 16a: %d\n", day16a(lines))
-	fmt.Printf("day 16b: %d\n", day16b(lines))
+	return day16a(lines), day16b(lines)
 }
 
 func day16a(lines []string) int {

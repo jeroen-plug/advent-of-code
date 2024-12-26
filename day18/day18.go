@@ -10,12 +10,10 @@ import (
 	"github.com/jeroen-plug/advent-of-code-2024/input"
 )
 
-func Day18() {
+func Solution() (any, any) {
 	lines := input.Lines(18)
-
-	fmt.Printf("day 18a: %d\n", day18a(lines[:1024], 71))
 	b := day18b(lines, 71)
-	fmt.Printf("day 18b: %d,%d\n", b.Col, b.Row)
+	return day18a(lines[:1024], 71), fmt.Sprintf("%d,%d", b.Col, b.Row)
 }
 
 func day18a(lines []string, size int) int {

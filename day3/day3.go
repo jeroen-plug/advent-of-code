@@ -1,7 +1,6 @@
 package day3
 
 import (
-	"fmt"
 	"strings"
 	"unicode"
 
@@ -13,11 +12,9 @@ type Instruction struct {
 	args []int
 }
 
-func Day3() {
+func Solution() (any, any) {
 	data := input.String(3)
-
-	fmt.Printf("day 3a: %d\n", day3a(data))
-	fmt.Printf("day 3b: %d\n", day3b(data))
+	return day3a(data), day3b(data)
 }
 
 func day3a(data string) int {
