@@ -1,6 +1,7 @@
 import pytest
 from unittest.mock import patch
-from .solution import *
+from . import solution
+
 
 class TestDay1:
     @pytest.mark.parametrize(
@@ -14,7 +15,7 @@ class TestDay1:
     )
     def test_part1(self, data, expect):
         with patch("inputs.string", return_value=data):
-            assert part1() == expect
+            assert solution.part1() == expect
 
     @pytest.mark.parametrize(
         "data, expect",
@@ -28,4 +29,4 @@ class TestDay1:
     )
     def test_part2(self, data, expect):
         with patch("inputs.string", return_value=data):
-            assert part2() == expect
+            assert solution.part2() == expect

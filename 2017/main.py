@@ -3,6 +3,7 @@
 import argparse
 import importlib
 
+
 def main():
     parser = argparse.ArgumentParser(prog="AdventOfCode2017")
     parser.add_argument("day", help="Which day of AoC 2017 to run", type=int)
@@ -23,6 +24,7 @@ def main():
             print(f"  Day {args.day} does not have a callable 'part2' function.")
     except ModuleNotFoundError:
         print(f"Day {args.day} not found. Make sure day{args.day}/solution.py exists.")
+
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,6 @@
 import os
 
+
 def string(day: int) -> str:
     input = os.path.join("input", f"{day}.txt")
     if not os.path.exists(input):
@@ -9,6 +10,7 @@ def string(day: int) -> str:
         content = f.read().rstrip("\n ")
 
     return content
+
 
 def lines(day: int) -> list[str]:
     input = os.path.join("input", f"{day}.txt")
