@@ -4,6 +4,7 @@ This repository contains my solutions for [Advent of Code](https://adventofcode.
 | Year | Language | Stars | CI/CD Status |
 |------|----------|-------|--------------|
 | [2024](https://adventofcode.com/2024) | Go     | ![50 Stars](https://img.shields.io/badge/Stars-50-gold?logo=adventofcode) | [![2024](https://github.com/jeroen-plug/advent-of-code/actions/workflows/2024.yml/badge.svg)](https://github.com/jeroen-plug/advent-of-code/actions/workflows/2024.yml) |
+| [2023](https://adventofcode.com/2023) | Go     | ![34 Stars](https://img.shields.io/badge/Stars-34-gold?logo=adventofcode) | [![2023](https://github.com/jeroen-plug/advent-of-code/actions/workflows/2023.yml/badge.svg)](https://github.com/jeroen-plug/advent-of-code/actions/workflows/2023.yml) |
 | [2017](https://adventofcode.com/2017) | Python | ![02 Stars](https://img.shields.io/badge/Stars-02-gold?logo=adventofcode) | [![2017](https://github.com/jeroen-plug/advent-of-code/actions/workflows/2017.yml/badge.svg)](https://github.com/jeroen-plug/advent-of-code/actions/workflows/2017.yml) |
 
 ## Running the Solutions
