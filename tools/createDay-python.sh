@@ -23,6 +23,8 @@ if [ ! -f day$DAY/solution.py ]; then
     cat > day$DAY/solution.py <<EOF
 import inputs
 
+title = ""
+
 
 def part1():
     data = inputs.string($DAY)

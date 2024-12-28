@@ -1,5 +1,7 @@
 import inputs
 
+title = "Inverse Captcha"
+
 
 def part1():
     data = inputs.string(1)

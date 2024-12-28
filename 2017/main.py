@@ -2,6 +2,7 @@
 
 import argparse
 import importlib
+from termcolor import colored
 
 
 def main():
@@ -11,8 +12,9 @@ def main():
 
     try:
         module = importlib.import_module(f"day{args.day}.solution")
+        title = module.title if hasattr(module, "title") else ""
 
-        print(f"Day {args.day}:")
+        print(colored(f"2017 Day {args.day}:", "yellow", attrs=["bold"]), colored(title, "yellow"))
         if hasattr(module, "part1") and callable(module.part1):
             print(f"  Part 1: {module.part1()}")
         else:
