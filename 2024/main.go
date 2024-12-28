@@ -50,11 +50,11 @@ func main() {
 	all := true
 
 	if len(os.Args) >= 2 {
-		d, err := strconv.Atoi(os.Args[1])
+		var err error
+		day, err = strconv.Atoi(os.Args[1])
 		if err != nil || day <= 0 || day > 25 {
 			usage()
 		}
-		day = d
 		all = false
 	}
 

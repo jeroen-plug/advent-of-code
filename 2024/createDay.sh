@@ -1,0 +1,1 @@
+../tools/createDay-go.sh
