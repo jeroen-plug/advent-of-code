@@ -58,7 +58,7 @@ func day14render(lines []string, width, height int) {
 		return
 	}
 
-	os.Mkdir("out14", os.ModeDir)
+	os.Mkdir("out14", os.ModePerm)
 
 	robots := parse(lines)
 	img := render(robots, width, height)

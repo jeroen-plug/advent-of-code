@@ -64,7 +64,7 @@ func day24a(lines []string) int {
 }
 
 func day24b(lines []string) string {
-	os.Mkdir("out24", os.ModeDir)
+	os.Mkdir("out24", os.ModePerm)
 
 	initial, gates := parse(lines)
 	swaps := getSwaps()
