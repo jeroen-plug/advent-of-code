@@ -10,7 +10,7 @@ pub fn part_1(input: &str) -> Option<u64> {
 }
 
 pub fn part_2(input: &str) -> Option<u64> {
-    solve(input, |id| check_id(id, divisors(id.len())))
+    solve(input, |id| check_id(id, factors(id.len())))
 }
 
 fn solve(input: &str, check: impl Fn(&str) -> bool) -> Option<u64> {
@@ -18,17 +18,17 @@ fn solve(input: &str, check: impl Fn(&str) -> bool) -> Option<u64> {
         parse(input)
             .into_iter()
             .flat_map(|(start, end)| start..=end)
-            .filter(|id| !check(&format!("{id}")))
+            .filter(|id| !check(&id.to_string()))
             .sum(),
     )
 }
 
-fn check_id(id: &str, divisors: Vec<usize>) -> bool {
-    for div in divisors {
-        let size = id.len() / div;
+fn check_id(id: &str, factors: Vec<usize>) -> bool {
+    for f in factors {
+        let size = id.len() / f;
         let base = &id[0..size];
 
-        if (1..div).all(|i| &id[i * size..(i + 1) * size] == base) {
+        if (1..f).all(|i| &id[i * size..(i + 1) * size] == base) {
             return false;
         }
     }
@@ -36,19 +36,19 @@ fn check_id(id: &str, divisors: Vec<usize>) -> bool {
     true
 }
 
-fn divisors(x: usize) -> Vec<usize> {
-    let mut divisors = Vec::new();
+fn factors(x: usize) -> Vec<usize> {
+    let mut factors = Vec::new();
 
-    for i in 2..(x / 2) + 1 {
+    for i in 2..=(x / 2) {
         if x.is_multiple_of(i) {
-            divisors.push(i);
+            factors.push(i);
         }
     }
     if x > 1 {
-        divisors.push(x);
+        factors.push(x);
     }
 
-    divisors
+    factors
 }
 
 fn parse(input: &str) -> Vec<(u64, u64)> {
