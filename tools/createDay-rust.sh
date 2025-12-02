@@ -21,13 +21,13 @@ if [ ! -f src/bin/$DAY.rs ]; then
     mkdir -p src/bin
 
     cat > src/bin/$DAY.rs <<EOF
-aoc::solution!($DAY, "")
+aoc::solution!($DAY, "");
 
-pub fn part_1(input &str) -> Option<u32> {
+pub fn part_1(input: &str) -> Option<u32> {
     None
 }
 
-pub fn part_2(input &str) -> Option<u32> {
+pub fn part_2(input: &str) -> Option<u32> {
     None
 }
 
@@ -35,7 +35,7 @@ pub fn part_2(input &str) -> Option<u32> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = ""
+    const INPUT: &str = "";
 
     #[test]
     fn test_part_1() {
