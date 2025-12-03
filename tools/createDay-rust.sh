@@ -23,11 +23,11 @@ if [ ! -f src/bin/$DAY.rs ]; then
     cat > src/bin/$DAY.rs <<EOF
 aoc::solution!($DAY, "");
 
-pub fn part_1(input: &str) -> Option<u32> {
+pub fn part_1(input: &str) -> Option<u64> {
     None
 }
 
-pub fn part_2(input: &str) -> Option<u32> {
+pub fn part_2(input: &str) -> Option<u64> {
     None
 }
 
