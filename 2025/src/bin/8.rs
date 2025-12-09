@@ -1,4 +1,4 @@
-aoc::solution!(8, "");
+aoc::solution!(8, "Playground");
 
 #[derive(Debug, Clone, Copy, Eq, Hash, PartialEq)]
 struct Point {
