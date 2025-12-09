@@ -3,7 +3,7 @@ aoc::solution!(6, "Trash Compactor");
 pub fn part_1(input: &str) -> Option<u64> {
     let mut homework: Vec<Vec<&str>> = input
         .lines()
-        .map(|line| line.trim().split_whitespace().collect())
+        .map(|line| line.split_whitespace().collect())
         .collect();
     let operators = homework.pop()?;
 
@@ -29,16 +29,16 @@ pub fn part_2(input: &str) -> Option<u64> {
     let mut numbers: Vec<u64> = Vec::new();
     let mut result = 0;
 
-    for col in (0..homework.get(0)?.len() + MARGIN).rev() {
+    for col in (0..homework.first()?.len() + MARGIN).rev() {
         let mut number = 0;
         let mut op: Option<char> = None;
 
-        for line in homework.iter() {
+        for line in &homework {
             match line.as_bytes().get(col).map(|&b| b as char) {
                 Some(n) if n.is_numeric() => number = 10 * number + n.to_digit(10)? as u64,
                 Some(o) if o.is_ascii_punctuation() => op = Some(o),
                 _ => {}
-            };
+            }
         }
         numbers.push(number);
 

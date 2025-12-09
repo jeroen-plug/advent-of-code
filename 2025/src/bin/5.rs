@@ -16,11 +16,11 @@ pub fn part_2(input: &str) -> Option<u64> {
 
     let mut merged = Vec::new();
     for (start, end) in ranges {
-        if let Some((_, last_end)) = merged.last_mut() {
-            if start <= *last_end + 1 {
-                *last_end = end.max(*last_end);
-                continue;
-            }
+        if let Some((_, last_end)) = merged.last_mut()
+            && start <= *last_end + 1
+        {
+            *last_end = end.max(*last_end);
+            continue;
         }
         merged.push((start, end));
     }
@@ -38,7 +38,7 @@ fn parse(input: &str) -> (Vec<(u64, u64)>, Vec<u64>) {
             Some((a.parse().ok()?, b.parse().ok()?))
         })
         .collect();
-    ranges.sort();
+    ranges.sort_unstable();
 
     let ingredients = ingredients
         .lines()

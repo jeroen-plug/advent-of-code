@@ -1,26 +1,24 @@
 aoc::solution!(2, "Gift Shop");
 
 pub fn part_1(input: &str) -> Option<u64> {
-    solve(input, |id| {
+    Some(solve(input, |id| {
         if id.len() % 2 != 0 {
             return true;
         }
         check_id(id, vec![2])
-    })
+    }))
 }
 
 pub fn part_2(input: &str) -> Option<u64> {
-    solve(input, |id| check_id(id, factors(id.len())))
+    Some(solve(input, |id| check_id(id, factors(id.len()))))
 }
 
-fn solve(input: &str, check: impl Fn(&str) -> bool) -> Option<u64> {
-    Some(
-        parse(input)
-            .into_iter()
-            .flat_map(|(start, end)| start..=end)
-            .filter(|id| !check(&id.to_string()))
-            .sum(),
-    )
+fn solve(input: &str, check: impl Fn(&str) -> bool) -> u64 {
+    parse(input)
+        .into_iter()
+        .flat_map(|(start, end)| start..=end)
+        .filter(|id| !check(&id.to_string()))
+        .sum()
 }
 
 fn check_id(id: &str, factors: Vec<usize>) -> bool {

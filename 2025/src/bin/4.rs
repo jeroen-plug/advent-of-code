@@ -14,9 +14,9 @@ pub fn part_2(input: &str) -> Option<usize> {
     while let Some(cells) = can_reach(&grid, |(x, y, cell)| {
         cell == '@' && !visited.contains(&(x, y))
     }) {
-        cells.iter().for_each(|&(x, y)| {
+        for &(x, y) in &cells {
             visited.insert((x, y));
-        });
+        }
     }
 
     Some(visited.len())

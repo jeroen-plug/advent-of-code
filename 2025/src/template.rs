@@ -30,8 +30,8 @@ macro_rules! solution {
 
     (@impl $day:expr, $title:expr, $( [$func:expr, $part:expr] )*) => {
         fn main() {
-            let input = $crate::template::read_input($day);
             println!("\x1b[1;33m2025 Day {}: \x1b[22m{}\x1b[0m", $day, $title);
+            let input = $crate::template::read_input($day);
             $( $crate::template::print_result($func(&input), $part); )*
         }
     };

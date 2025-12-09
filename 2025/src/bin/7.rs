@@ -3,14 +3,14 @@ aoc::solution!(7, "Laboratories");
 use std::collections::HashMap;
 
 pub fn part_1(input: &str) -> Option<u64> {
-    solve(input).map(|(splits, _)| splits)
+    Some(solve(input).0)
 }
 
 pub fn part_2(input: &str) -> Option<u64> {
-    solve(input).map(|(_, timelines)| timelines)
+    Some(solve(input).1)
 }
 
-fn solve(input: &str) -> Option<(u64, u64)> {
+fn solve(input: &str) -> (u64, u64) {
     let mut beams = HashMap::new();
     let mut splits = 0;
 
@@ -31,7 +31,7 @@ fn solve(input: &str) -> Option<(u64, u64)> {
         }
     }
 
-    Some((splits, beams.values().sum()))
+    (splits, beams.values().sum())
 }
 
 #[cfg(test)]
