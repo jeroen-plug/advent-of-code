@@ -23,7 +23,8 @@ fn solve(boundary: &[Point], filter: impl Fn((Point, Point)) -> bool) -> Option<
         .flat_map(|(i, a)| {
             boundary[(i + 1)..]
                 .iter()
-                .filter_map(|b| filter((*a, *b)).then(|| area(*a, *b)))
+                .filter(|&b| filter((*a, *b)))
+                .map(|b| area(*a, *b))
         })
         .max()
 }
