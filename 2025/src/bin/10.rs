@@ -1,12 +1,13 @@
 aoc::solution!(10, "Factory");
 
+use good_lp::{Expression, Solution, SolverModel, constraint, default_solver, variables};
 use itertools::Itertools;
 
 #[derive(Debug, Default)]
 struct Machine {
     indicator: u16,
     buttons: Vec<Vec<usize>>,
-    joltage: Vec<usize>,
+    joltage: Vec<u32>,
 }
 
 pub fn part_1(input: &str) -> Option<usize> {
@@ -33,7 +34,40 @@ pub fn part_1(input: &str) -> Option<usize> {
 }
 
 pub fn part_2(input: &str) -> Option<usize> {
-    None
+    let machines = parse(input);
+    let mut sum = 0;
+
+    for machine in &machines {
+        variables! {vars: 0 <= x[machine.buttons.len()] (integer); }
+        let objective: Expression = x.iter().sum();
+
+        let constraints = machine.joltage.iter().enumerate().map(|(j, &target)| {
+            let presses: Expression = machine
+                .buttons
+                .iter()
+                .enumerate()
+                .filter_map(|(b, button)| {
+                    if button.contains(&j) {
+                        Some(x[b])
+                    } else {
+                        None
+                    }
+                })
+                .sum();
+            constraint!(presses == target)
+        });
+
+        sum += vars
+            .minimise(&objective)
+            .using(default_solver)
+            .with_all(constraints)
+            .solve()
+            .ok()?
+            .eval(objective)
+            .round() as usize;
+    }
+
+    Some(sum)
 }
 
 fn parse(input: &str) -> Vec<Machine> {
@@ -55,7 +89,7 @@ fn parse_token(machine: &mut Machine, token: &str) {
                 .trim_matches(['[', ']'])
                 .chars()
                 .enumerate()
-                .fold(0, |acc, (i, c)| acc | (((c == '#') as u16) << i))
+                .fold(0, |acc, (i, c)| acc | (((c == '#') as u16) << i));
         }
         Some('(') => machine.buttons.push(
             token
@@ -69,9 +103,8 @@ fn parse_token(machine: &mut Machine, token: &str) {
                 .trim_matches(['{', '}'])
                 .split(',')
                 .map(|j| j.parse().unwrap())
-                .collect()
+                .collect();
         }
-        None => {}
         _ => {}
     }
 }
@@ -94,6 +127,6 @@ mod tests {
     #[test]
     fn test_part_2() {
         let result = part_2(INPUT);
-        assert_eq!(result, None);
+        assert_eq!(result, Some(33));
     }
 }
